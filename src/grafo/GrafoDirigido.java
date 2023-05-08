@@ -27,11 +27,15 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public void borrarVertice(int verticeId) {
-		if(this.vertices.get(verticeId) != null) {
-			this.vertices.get(verticeId).clear();
-			this.vertices.remove(verticeId);
+		if(this.vertices.get(verticeId) != null) { //si existe
+			this.vertices.get(verticeId).clear(); //borra todos sus vertices adyacentes
+			for(Arco a : this.vertices.get(verticeId)) {//borra todos los que apuntaban a el
+				//O(n)
+				if(a.getVerticeDestino() == verticeId)
+					this.vertices.get(verticeId).remove(a);
+			}
+			this.vertices.remove(verticeId); //se borra el vértice
 		}
-
 	}
 
 	@Override
