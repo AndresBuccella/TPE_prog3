@@ -100,8 +100,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
 				//O(n)
 				if(a.getVerticeDestino() == verticeId2)
 					return a;
-				else
-					return null;
 			}			
 		}
 		return null;
@@ -109,8 +107,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public int cantidadVertices() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.vertices.size();
 	}
 
 	@Override
