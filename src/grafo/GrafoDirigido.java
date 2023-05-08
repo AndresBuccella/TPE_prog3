@@ -79,13 +79,21 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public boolean contieneVertice(int verticeId) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.vertices.get(verticeId) != null;
 	}
 
 	@Override
-	public boolean existeArco(int verticeId1, int verticeId2) {
-		// TODO Auto-generated method stub
+	public boolean existeArco(int verticeId1, int verticeId2) { //O(n)
+
+		if((this.vertices.get(verticeId1) != null) &&  (this.vertices.get(verticeId2) != null)){
+			for(Arco a : this.vertices.get(verticeId1)) {
+				//O(n)
+				if(a.getVerticeDestino() == verticeId2)
+					return true;
+				else
+					return false;
+			}			
+		}
 		return false;
 	}
 
