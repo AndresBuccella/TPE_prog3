@@ -20,7 +20,6 @@ public class ServicioDFS {
 		this.grafo = grafo;
 		this.tiempo = 0;
 	}
-	20.54
 	public List<Integer> dfsForest() {
 		//Para cada vertice, se le asigna NOVISITADO y tiempo 0
 		//por cada vertice se pregunta si es NOVISITADO

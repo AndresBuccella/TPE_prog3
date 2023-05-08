@@ -1,24 +1,26 @@
 package grafo;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
-import iterator.IteratorAdyacentes;
+public class GrafoDirigido<T> implements Grafo<T> {
 
-
-public class GrafoDirigido<T> implements Grafo<T>, Iterable<Integer> {
-
-	private HashMap<Integer, LinkedList<Arco>> vertices;
+	private HashMap<Integer, LinkedList<Arco<T>>> vertices;
 	
 	public GrafoDirigido() { //tiene sentido crear un grafo vacio?
-		vertices = new HashMap<Integer, LinkedList<Arco>>();
+		vertices = new HashMap<Integer, LinkedList<Arco<T>>>();
 	}
 
 	@Override
 	public void agregarVertice(int verticeId) {
 		if(this.vertices.get(verticeId) == null) {
-			this.vertices.put(verticeId, new LinkedList<Arco>());
+			this.vertices.put(verticeId, new LinkedList<Arco<T>>());
 		}
 	}
 
@@ -114,7 +116,7 @@ public class GrafoDirigido<T> implements Grafo<T>, Iterable<Integer> {
 	@Override
 	public int cantidadArcos() {
 		int result = 0;
-		for (LinkedList<Arco> lAd : this.vertices.values()) { //que complejidad sería??
+		for (LinkedList<Arco<T>> lAd : this.vertices.values()) { //que complejidad sería??
 			result = result + lAd.size();
 		}
 		return result;
@@ -122,31 +124,42 @@ public class GrafoDirigido<T> implements Grafo<T>, Iterable<Integer> {
 
 	@Override
 	public Iterator<Integer> obtenerVertices() {
-		return null;
+		return this.vertices.keySet().iterator();
 	}
 
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
 		
-		return new IteratorAdyacentes(this.vertices.get(verticeId));
+		if (vertices.containsKey(verticeId)) {
+			ArrayList<Integer> adyacentesIds = new ArrayList<>();
+			LinkedList<Arco<T>> adyacentes = vertices.get(verticeId);
+			for (Arco arco : adyacentes) {
+				adyacentesIds.add(arco.getVerticeDestino());
+			}
+			return adyacentesIds.iterator();
+	    }
+		return Collections.emptyIterator();
 	}
 
 	@Override
-	public Iterator<Arco<T>> obtenerArcos() {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<Arco<T>> obtenerArcos() { // O(n^2)?
+		Stack<Arco<T>> pila = new Stack<Arco<T>>();
+		for(LinkedList<Arco<T>> lArco : this.vertices.values()) {
+			for(Arco a : lArco) {
+				pila.add(a);
+			}
+		}
+		
+		return pila.iterator();
 	}
 
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
-		// TODO Auto-generated method stub
-		return null;
+		if(this.vertices.containsKey(verticeId)) {
+			LinkedList<Arco<T>> listArc = this.vertices.get(verticeId); 
+			return listArc.iterator();			
+		}
+		return Collections.emptyIterator();
 	}
-
-	@Override
-	public Iterator<Integer> iterator() {
-		return obtenerAdyacentes(10);
-	}
-
 
 }
