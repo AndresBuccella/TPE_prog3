@@ -112,8 +112,11 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public int cantidadArcos() {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		for (LinkedList<Arco> lAd : this.vertices.values()) { //que complejidad sería??
+			result = result + lAd.size();
+		}
+		return result;
 	}
 
 	@Override
