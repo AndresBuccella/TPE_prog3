@@ -66,12 +66,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public void borrarArco(int verticeId1, int verticeId2) { //O(2n) = O(n)
 		if((this.vertices.get(verticeId1) != null) &&  
 		(this.vertices.get(verticeId2) != null)){ //O(1)
-			for(Arco a : this.vertices.get(verticeId1)) {
-				//O(n)
-				if((a.getVerticeOrigen() == verticeId1) && (a.getVerticeDestino() == verticeId2)) {
-					//Recorre toda la lista de adyacencia, si encuentra un arco igual, lo borra
-					this.vertices.get(verticeId1).remove(a); //O(n)
-				}
+			if(this.existeArco(verticeId1, verticeId2)) {
+				this.vertices.get(verticeId1).remove(a); //O(n)
 			}			
 		}
 
@@ -99,7 +95,16 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
-		// TODO Auto-generated method stub
+
+		if((this.vertices.get(verticeId1) != null) &&  (this.vertices.get(verticeId2) != null)){
+			for(Arco a : this.vertices.get(verticeId1)) {
+				//O(n)
+				if(a.getVerticeDestino() == verticeId2)
+					return a;
+				else
+					return null;
+			}			
+		}
 		return null;
 	}
 
