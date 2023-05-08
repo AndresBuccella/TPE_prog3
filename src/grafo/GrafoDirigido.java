@@ -4,17 +4,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class GrafoDirigido<T> implements Grafo<T> {
+import iterator.IteratorAdyacentes;
+
+
+public class GrafoDirigido<T> implements Grafo<T>, Iterable<Integer> {
 
 	private HashMap<Integer, LinkedList<Arco>> vertices;
-	private HashMap<T,String> estado; //estaria bien
-//	private HashMap<T,T> adyacentes; //estaria mal porque los indices deben ser unicos
-/*	private final String EBLANCO = "Blanco";
-	private final String EAMARILLO = "Amarillo";
-	private final String ENEGRO = "Negro";
-*/	
 	
-	public GrafoDirigido(int vertice) {
+	public GrafoDirigido() { //tiene sentido crear un grafo vacio?
 		vertices = new HashMap<Integer, LinkedList<Arco>>();
 	}
 
@@ -125,14 +122,13 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Integer> obtenerVertices() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return new IteratorAdyacentes(this.vertices.get(verticeId));
 	}
 
 	@Override
@@ -146,5 +142,11 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Iterator<Integer> iterator() {
+		return obtenerAdyacentes(10);
+	}
+
 
 }
