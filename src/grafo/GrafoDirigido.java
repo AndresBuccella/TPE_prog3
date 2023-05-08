@@ -66,7 +66,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public void borrarArco(int verticeId1, int verticeId2) { //O(2n) = O(n)
 		if((this.vertices.get(verticeId1) != null) &&  
 		(this.vertices.get(verticeId2) != null)){ //O(1)
-			if(this.existeArco(verticeId1, verticeId2)) {
+			Arco a = this.obtenerArco(verticeId1, verticeId2); //O(n)
+			if(a != null) {
 				this.vertices.get(verticeId1).remove(a); //O(n)
 			}			
 		}
@@ -86,8 +87,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
 				//O(n)
 				if(a.getVerticeDestino() == verticeId2)
 					return true;
-				else
-					return false;
 			}			
 		}
 		return false;
