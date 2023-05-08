@@ -34,6 +34,10 @@ public class ServicioDFS {
 		//por cada vertice se pregunta si es NOVISITADO
 		this.estado.forEach((k,v) -> {
 			Iterator<Integer> itAd = this.grafo.obtenerAdyacentes(k);
+			while(itAd.hasNext()) {
+				Integer destino = itAd.next();
+				
+			}
 		});
 		//si es NOVISITADO va a DFS_Visit
 		//se agrega al arraylist
