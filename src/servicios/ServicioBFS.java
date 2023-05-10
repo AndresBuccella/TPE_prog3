@@ -5,7 +5,7 @@ import java.util.List;
 
 import grafo.Grafo;
 
-public class ServicioBFS {
+public class ServicioBFS { //min 43:00
 
 	private Grafo<?> grafo;
 	

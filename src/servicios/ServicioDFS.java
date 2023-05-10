@@ -1,25 +1,25 @@
 package servicios;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import grafo.Arco;
 import grafo.Grafo;
 
 public class ServicioDFS {
 
 	private Grafo<?> grafo;
-	private HashMap<Integer, HashMap<Integer, String>> estado; //estaria bien?
-//	private HashMap<T,T> adyacentes; //estaria mal porque los indices deben ser unicos
+	private HashMap<Integer, Array[]> estado; //estaria bien?
+	//no me parece eficiente, pero podría hacer un objeto estado?
 	private final String NOVISITADO = "Blanco";
 	private final String VISITADO = "Amarillo";
-	private final String REVISITADO = "Negro";
+	private final String SINADYACENTES = "Negro";
 	
 	public ServicioDFS(Grafo<?> grafo) {
 		this.grafo = grafo;
-		this.estado = new HashMap<Integer, HashMap<Integer, String>>();
+		this.estado = new HashMap<Integer, Array[]>();
 	}
 	public List<Integer> dfsForest() {
 		//Para cada vertice, se le asigna NOVISITADO y tiempo 0
@@ -27,9 +27,11 @@ public class ServicioDFS {
 		Iterator<Integer> it = this.grafo.obtenerVertices();
 		while(it.hasNext()) {
 			Integer vertice = it.next();
-			HashMap<Integer, String> hmDesc = new HashMap<Integer, String>();
-			hmDesc.put(tiempo, NOVISITADO);
-			this.estado.put(vertice, hmDesc);
+			int tiempoDesc = 0;
+			int tiempoFin = 0;
+			int estado = 0; // 0=blanco 1=amarillo 2=negro
+			int[] arr = new int[tiempoDesc, tiempoFin, estado];
+			
 		}
 		//por cada vertice se pregunta si es NOVISITADO
 		this.estado.forEach((k,v) -> {
