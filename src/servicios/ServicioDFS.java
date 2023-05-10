@@ -61,11 +61,16 @@ public class ServicioDFS {
 		if(it.hasNext()) {
 			Arco<T> arco = it.next();
 			if(this.estado.get(vertice)[2] == this.BLANCO) {
-				return new LinkedList<Integer>().addAll(this.DFS_Visit(vertice, tiempoTotal));
+    //tendría que ir agregandolas a una pila vinculada, así queda en orden o llegan bien ordenadas?
+				LinkedList<Integer> li = new LinkedList<Integer>();
+    li.addAll(this.DFS_Visit(vertice, tiempoTotal));
 			}
 			
 		}
-		return null;
+  this.estado.get(vertice).arr[2] = this.FINALIZADO;
+  tiempoTotal++;
+  this.estado.get(vertice).arr[1] = tiempoTotal;
+		return li;
 	}
 
 }
