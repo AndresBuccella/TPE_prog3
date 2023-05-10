@@ -15,7 +15,7 @@ public class ServicioDFS {
 	private Grafo<?> grafo;
 	private HashMap<Integer, int[]> estado; //estaria bien?
 	
-	//no me parece eficiente, pero podría hacer un objeto estado?
+	//no me parece eficiente, pero podrÃ­a hacer un objeto estado?
 	
 	private final int BLANCO = 0; //no visitado
 	private final int AMARILLO = 1; //visitado
@@ -58,7 +58,7 @@ public class ServicioDFS {
 		this.estado.get(vertice)[0] = tiempoTotal;
 		Iterator<Arco<Integer>> it = this.grafo.obtenerArcos(vertice);
 
-		while(it.hasNext()) {
+		if(it.hasNext()) {
 			Arco<T> arco = it.next();
 			if(this.estado.get(vertice)[2] == this.BLANCO) {
 				return new LinkedList<Integer>().addAll(this.DFS_Visit(vertice, tiempoTotal));
