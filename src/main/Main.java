@@ -8,6 +8,7 @@ import java.util.List;
 
 import grafo.Arco;
 import grafo.GrafoDirigido;
+import servicios.ServicioBFS;
 import servicios.ServicioDFS;
 
 public class Main {
@@ -48,10 +49,9 @@ public class Main {
 		gd.agregarArco(18, 27, null);
 		gd.agregarArco(18, 110, null);
 		
-		Iterator<Integer> vertices = gd.obtenerVertices();
-		List<Integer> l = new ServicioDFS(gd).dfsForest();
-		ArrayList<Integer> arr = new ArrayList<Integer>(l);
-		for(Integer vertice : arr) {
+		//Iterator<Integer> vertices = gd.obtenerVertices();
+		List<Integer> l = new ServicioBFS(gd).bfsForest();
+		for(Integer vertice : l) {
 			System.out.println(" - " + vertice + " - ");			
 		}
 		
