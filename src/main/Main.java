@@ -9,6 +9,7 @@ import java.util.List;
 import grafo.Arco;
 import grafo.GrafoDirigido;
 import servicios.ServicioBFS;
+import servicios.ServicioCaminos;
 import servicios.ServicioDFS;
 
 public class Main {
@@ -48,11 +49,16 @@ public class Main {
 		gd.agregarArco(110, 27, null);
 		gd.agregarArco(18, 27, null);
 		gd.agregarArco(18, 110, null);
+		gd.agregarArco(90, 20, null);
 		
 		//Iterator<Integer> vertices = gd.obtenerVertices();
-		List<Integer> l = new ServicioBFS(gd).bfsForest();
-		for(Integer vertice : l) {
-			System.out.println(" - " + vertice + " - ");			
+		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 20, 3).caminos();
+		for(List<Integer> listaSimple : listaCompuesta) {
+				System.out.println(" ------------------------ ");
+			for(Integer vertice : listaSimple) {
+				System.out.println(" - " + vertice + " - ");						
+			}
+				System.out.println(" ------------------------ ");
 		}
 		
 		// Recorrer todos los vértices del grafo usando el iterador
