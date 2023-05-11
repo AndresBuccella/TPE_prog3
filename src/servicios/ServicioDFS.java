@@ -1,19 +1,18 @@
 package servicios;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
-import grafo.Arco;
 import grafo.Grafo;
 
 public class ServicioDFS {
 
 	private Grafo<?> grafo;
-	private HashMap<Integer, int[]> estado; //estaria bien?
+	private HashMap<Integer, int[]> info; //estaria bien?
 	
 	//no me parece eficiente, pero podría hacer un objeto estado?
 	
@@ -21,56 +20,62 @@ public class ServicioDFS {
 	private final int AMARILLO = 1; //visitado
 	private final int NEGRO = 2; //finalizado
 	
+	private int tiempoTotal;
+	
 	public ServicioDFS(Grafo<?> grafo) {
 		this.grafo = grafo;
-		this.estado = new HashMap<Integer, int[]>();
+		this.info = new HashMap<Integer, int[]>();
+		this.tiempoTotal = 0;
 	}
-	public List<Integer> dfsForest() {
-		
-		int tiempoTotal = 0;
-		int tiempoI = 0;
-		int tiempoF = 0;
-		int estado = 0; // 0=blanco 1=amarillo 2=negro
-		int[] arr = {tiempoI, tiempoF, estado};
-		LinkedList<Integer> listR = new LinkedList<Integer>();
-
+	private void inicializarInfo() {
 		Iterator<Integer> it = this.grafo.obtenerVertices();
 		while(it.hasNext()) {
 			Integer vertice = it.next();
-			this.estado.put(vertice, arr);
+			int[] arr = new int[3];
+			arr[0] = 0; //tiempo inicial
+			arr[1] = 0; //tiempo final
+			arr[2] = this.BLANCO; // 0=blanco 1=amarillo 2=negro
+			this.info.put(vertice, arr);
 		}
+		
+	}
+	public List<Integer> dfsForest() {
+		
+		this.inicializarInfo();
+		
+		Iterator<Integer> it = this.grafo.obtenerVertices();
+		List<Integer> pilaR = new Stack<Integer>();
 		while(it.hasNext()) {
 			//por cada vertice se pregunta si no fue visitado
 			//si es BLANCO va a DFS_Visit
 			Integer vertice = it.next();
-			if(this.estado.get(vertice)[2] == this.BLANCO) {
-				listR.addAll(DFS_Visit(vertice, tiempoTotal));
+			if(this.info.get(vertice)[2] == this.BLANCO) {
+				pilaR.addAll(DFS_Visit(vertice));
 			}
-			
 		}
-		//se agrega al arraylist
-		return new ArrayList<>();
+		return new ArrayList<>(pilaR);
 	}
 	
-	private List<Integer> DFS_Visit(int vertice, int tiempoTotal){
-		this.estado.get(vertice)[2] = this.AMARILLO;
+	private List<Integer> DFS_Visit(int vertice){
+		List<Integer> pilaA = new Stack<Integer>();
+		pilaA.add(vertice);
+		this.info.get(vertice)[2] = this.AMARILLO;
 		tiempoTotal++;
-		this.estado.get(vertice)[0] = tiempoTotal;
-		Iterator<Arco<Integer>> it = this.grafo.obtenerArcos(vertice);
+		this.info.get(vertice)[0] = tiempoTotal;
+		Iterator<Integer> it = this.grafo.obtenerAdyacentes(vertice);
 
-		if(it.hasNext()) {
-			Arco<T> arco = it.next();
-			if(this.estado.get(vertice)[2] == this.BLANCO) {
-    //tendría que ir agregandolas a una pila vinculada, así queda en orden o llegan bien ordenadas?
-				LinkedList<Integer> li = new LinkedList<Integer>();
-    li.addAll(this.DFS_Visit(vertice, tiempoTotal));
+		
+		while(it.hasNext()) {
+			Integer adyacente = it.next();
+			if(this.info.get(adyacente)[2] == this.BLANCO) {
+				pilaA.addAll(this.DFS_Visit(adyacente));
 			}
 			
 		}
-  this.estado.get(vertice).arr[2] = this.FINALIZADO;
-  tiempoTotal++;
-  this.estado.get(vertice).arr[1] = tiempoTotal;
-		return li;
+		this.info.get(vertice)[2] = this.NEGRO;
+		tiempoTotal++;
+		this.info.get(vertice)[1] = tiempoTotal;
+		return pilaA;
 	}
 
 }
