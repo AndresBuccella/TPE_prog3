@@ -59,6 +59,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	*/
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
+//tengo que controlar que no se agreguen arcos iguales. si la etiqueta es distinta, actualizar etiqueta
 		if(this.vertices.containsKey(verticeId1) &&  
 		this.vertices.containsKey(verticeId2)){
 			//Si los vertices existen =>
