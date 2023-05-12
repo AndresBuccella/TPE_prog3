@@ -2,12 +2,22 @@ package main;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
+
 
 public class MainPruebas {
 
 	public static void main(String[] args) {
+		
+		HashMap<Integer, HashSet<Integer>> hm = new HashMap<>();
+		Iterator<Integer> hs = hm.values().stream().filter(Objects::nonNull).flatMap(HashSet::stream).iterator();
+		while(hs.hasNext()) {
+			Integer i = hs.next();
+			System.out.println(i);
+		}
 /*		Queue<Integer> l = new LinkedList<>();
 
 		LinkedList<Integer> l2 = new LinkedList<>();
@@ -26,8 +36,9 @@ public class MainPruebas {
 		
 		hm.put(null, null);*/
 
+	//System.out.println(null == null);	
 		
-		HashSet<Integer> hs = new HashSet<>();
+/*		HashSet<Integer> hs = new HashSet<>();
 		
 		if(hs.add(1)) {
 			System.out.println(1);
@@ -37,8 +48,8 @@ public class MainPruebas {
 				System.out.println("falso");
 		}
 		System.out.println(hs.iterator());
-	}
-	public static void aer(HashMap<Integer, Integer> hm, int limite){
+*/	}
+/*	public static void aer(HashMap<Integer, Integer> hm, int limite){
 		
 		if(limite != 0) {
 			hm.put(limite, limite+1);
@@ -50,4 +61,5 @@ public class MainPruebas {
 			System.out.println("Despues de: " + hm.get(limite));
 		}
 	}
+*/
 }

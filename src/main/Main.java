@@ -16,7 +16,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		/*		HashMap<Integer, LinkedList<LinkedList<String>>> m = new HashMap<Integer, LinkedList<LinkedList<String>>>();
+/*		HashMap<Integer, LinkedList<LinkedList<String>>> m = new HashMap<Integer, LinkedList<LinkedList<String>>>();
 		m.put(1, new LinkedList<LinkedList<String>>());
 		m.put(2, new LinkedList<LinkedList<String>>());
 		LinkedList<String> l = new LinkedList<String>(); 
@@ -50,9 +50,10 @@ public class Main {
 		gd.agregarArco(18, 27, null);
 		gd.agregarArco(18, 110, null);
 		gd.agregarArco(90, 20, null);
-		
-		//Iterator<Integer> vertices = gd.obtenerVertices();
-		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 20, 3).caminos();
+
+		Integer arcos = gd.cantidadArcos();
+		System.out.println(arcos);
+/*		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 20, 3).caminos();
 		for(List<Integer> listaSimple : listaCompuesta) {
 				System.out.println(" ------------------------ ");
 			for(Integer vertice : listaSimple) {
@@ -60,18 +61,30 @@ public class Main {
 			}
 				System.out.println(" ------------------------ ");
 		}
+*/		
+		
+		//System.out.println(gd.cantidadArcos());
 		
 		// Recorrer todos los vértices del grafo usando el iterador
-/*		while (iteradorArcos.hasNext()) {
-			Arco<Integer> arco = iteradorArcos.next();
+/*		Iterator<Arco<Integer>> itArcos = gd.obtenerArcos();
+		while (itArcos.hasNext()) {
+			Arco<Integer> arco = itArcos.next();
 		    // Hacer algo con el vértice
-		    System.out.println("Origen: " + arco.getVerticeOrigen());
+		    System.out.println("Origen: " + arco.getVerticeOrigen() + ", Destino: " + arco.getVerticeDestino());
 		}
-		
-*/		
-/*		for (Integer idVertice : gd) {
+*/
+/*		Iterator<Integer> vertices = gd.obtenerAdyacentes(20);
+		while (vertices.hasNext()) {
+			Integer destino = vertices.next();
 		    // Hacer algo con el vértice
-		    System.out.println("Vértice " + idVertice + " en el grafo");
+		    System.out.println("Destino: " + destino);	
+		}
+*/		
+/*		Iterator<Integer> vertices = gd.obtenerVertices();
+		while (vertices.hasNext()) {
+			Integer destino = vertices.next();
+		    // Hacer algo con el vértice
+		    System.out.println("Destino: " + destino);	
 		}
 */
 	}
