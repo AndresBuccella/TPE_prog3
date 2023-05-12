@@ -49,7 +49,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 				setDeAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId); //O(n)
 			}
 
-			this.vertices.remove(verticeId); //se borra el vÈrtice O(n)
+			this.vertices.remove(verticeId); //se borra el v√©rtice O(n)
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	/**
 	* Complejidad: O(n) donde n es la cantidad de nodos de la lista de adyacencia 
 	* debido a que debe encontrar y borrar el arco hallado. Como tiene otra complejidad O(n)
-	* pero no est· anidada, no la tomamos en cuenta.
+	* pero no est√° anidada, no la tomamos en cuenta.
 	*/
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) { //O(2n) = O(n)
@@ -112,7 +112,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	
 	/**
 	* Complejidad: O(n) donde n es la cantidad de arcos debido a que debe
-	* recorrer la lista de adyacentes de un vÈrtice para verificar si existe un arco.
+	* recorrer la lista de adyacentes de un v√©rtice para verificar si existe un arco.
 	*/
 	@Override
 	public boolean existeArco(int verticeId1, int verticeId2) { //O(n)
@@ -128,7 +128,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	
 	/**
 	* Complejidad: O(n) donde n es la cantidad de vertices adyacentes que tenga el vertice origen debido a que debe
-	* recorrer todos los arcos para verificar si alguno tiene como destino el vertice destino recibido por par·metro.
+	* recorrer todos los arcos para verificar si alguno tiene como destino el vertice destino recibido por par√°metro.
 	*/
 	@Override
 	public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
@@ -235,7 +235,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
-
+//deberia usar getOrDefault por si el v√©rtice no tiene arcos
 		return this.vertices.get(verticeId).stream()
 							.filter(Objects::nonNull)
 							.iterator();
