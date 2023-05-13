@@ -35,6 +35,7 @@ public class Main {
 		gd.agregarVertice(18);
 		gd.agregarVertice(27);
 
+		System.out.println("---------GD---------------");
 		gd.agregarArco(10, 50, null);
 		gd.agregarArco(10, 20, null);
 		gd.agregarArco(20, 50, null);
@@ -51,8 +52,44 @@ public class Main {
 		gd.agregarArco(18, 110, null);
 		gd.agregarArco(90, 20, null);
 
-		Integer arcos = gd.cantidadArcos();
-		System.out.println(arcos);
+		System.out.println("---------------------");
+		System.out.println("Cantidad de arcos: " + gd.cantidadArcos());
+		
+		
+		System.out.println("--------.borrarVertice()-----------");
+		Iterator<Arco<Integer>> itA1 = gd.obtenerArcos();
+		while(itA1.hasNext()) {
+			Arco<Integer> a = itA1.next();
+			System.out.println("Origen: " + a.getVerticeOrigen() + " Destino: " + a.getVerticeDestino());
+		}
+/*		System.out.println("cantVert antedeliminar: " + gd.cantidadVertices());
+		gd.borrarVertice(110);
+		System.out.println("cantVert despdeliminar: " + gd.cantidadVertices());
+*/
+		itA1 = null;
+		try {
+			Thread.sleep(3*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		gd.agregarArco(110, 27, 10);
+		//gd.agregarArco(110, 27, 5); //no usarlo seguido, rompe
+
+		System.out.println("---------.borrarArco(int,int)----------");
+		
+		//gd.borrarArco(90, 20);
+		gd.borrarArco(90,110);
+		System.out.println("Cantidad de arcos despues de eliminar: " + gd.cantidadArcos());
+		System.out.println("--------.obtenerArcos()-----------");
+		
+		Iterator<Arco<Integer>> itA = gd.obtenerArcos();
+		while(itA.hasNext()) {
+			Arco<Integer> a = itA.next();
+			System.out.println("Origen: " + a.getVerticeOrigen() + " Destino: " + a.getVerticeDestino() + " Etiqueta: " + a.getEtiqueta());
+		}
+
+		
 /*		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 20, 3).caminos();
 		for(List<Integer> listaSimple : listaCompuesta) {
 				System.out.println(" ------------------------ ");

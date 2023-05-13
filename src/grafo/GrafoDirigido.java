@@ -2,15 +2,9 @@ package grafo;
 
 import java.util.Iterator;
 
-import java.util.Collections;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Stack;
 
 public class GrafoDirigido<T> implements Grafo<T> {
 
@@ -41,45 +35,46 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public void borrarVertice(int verticeId) {
 
 		if(this.vertices.containsKey(verticeId)) { // O(1)
-			this.vertices.get(verticeId).clear(); //borra todos sus vertices adyacentes O(n)
+			this.vertices.remove(verticeId); //borra la clave-valor del hm O(1)
 			
-			for(HashSet<Arco<T>> setDeAdyacentes : this.vertices.values()) {// for * for O(n^2)
-				//recorre todo el hashmap devolviendo las listas
+			for(HashSet<Arco<T>> setDeArcos : this.vertices.values()) {// for * for O(n^2)
+				//recorre todo el hashmap devolviendo los set
 				//O(n)
-				setDeAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId); //O(n)
+				setDeArcos.removeIf(arco -> arco.getVerticeDestino() == verticeId); //O(n)
 			}
 
-			this.vertices.remove(verticeId); //se borra el vértice O(n)
 		}
 	}
 	
 	/**
-	* Complejidad: O(n) donde n es la cantidad de arcos del vertice origen debido a que debe
-	* buscar si ya tiene un arco que lo lleve al mismo destino.
+	* Complejidad: O(n) donde n es la cantidad de arcos adyacentes al vertice debido a que tiene
+	* que recorrer dos veces por separado los adyacentes al vertice.
 	*/
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
 //tengo que controlar que no se agreguen arcos iguales. si la etiqueta es distinta, actualizar etiqueta
-		if(this.vertices.containsKey(verticeId1) &&  
-		this.vertices.containsKey(verticeId2)){
-			//Si los vertices existen =>
-			//O(1)
-			//Puede permitir arcos iguales con distinto peso??
-/*			for(Arco<T> arco : this.vertices.get(verticeId1)) {
-				//O(n)
-				if((arco.getVerticeOrigen() == verticeId1) && (arco.getVerticeDestino() == verticeId2) &&
-					(arco.getEtiqueta.equals(etiqueta) {
-					//Recorre toda la lista de adyacencia, si encuentra un arco igual, sale
-					return;
+//Puede permitir arcos iguales con distinto peso?? Esta implementacion no.
+		if(this.vertices.containsKey(verticeId1) && this.vertices.containsKey(verticeId2)) { //O(1)
+			Arco<T> arcoNuevo = new Arco<T>(verticeId1, verticeId2, etiqueta);
+			if(this.vertices.get(verticeId1) != null) {
+				for(Arco<T> arco : this.vertices.get(verticeId1)) { //O(n) n = cantAdy(verticeId1)
+					if(arco.getVerticeDestino() == verticeId2) {
+						if(arco.getEtiqueta() == arcoNuevo.getEtiqueta()) {//levaria un .equals pero todavia no esta implementado porque
+							//no lo necesitamos
+							//Recorre toda la lista de adyacencia, si encuentra un arco identico, sale
+							return;
+						}
+						else {//como no se puede setear la etiqueta, hay que eliminarlo y agregarlo nuevamente
+							this.vertices.get(verticeId1).remove(arco); //O(n) n = cantAdy(verticeId1) en caso peor
+						}
+					}
 				}
+				this.vertices.get(verticeId1).add(arcoNuevo);				
 			}
-*/			//Si no existe el arco lo crea y agrega =>
-			Arco<T> newArco = new Arco<T>(verticeId1, verticeId2, etiqueta);
-			this.vertices.get(verticeId1).add(newArco); //aca permite arcos iguales con distinto peso
 		}
 
 	}
-	
+
 	/**
 	* Complejidad: O(n) donde n es la cantidad de nodos de la lista de adyacencia 
 	* debido a que debe encontrar y borrar el arco hallado. Como tiene otra complejidad O(n)
@@ -210,16 +205,21 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	*/
 
 	@Override
-	public Iterator<Arco<T>> obtenerArcos() { // O(1)
+	public Iterator<Arco<T>> obtenerArcos() { // O(n)
 		
-		return this.vertices.values().stream().filter(Objects::nonNull).flatMap(HashSet::stream).iterator();
+		return this.vertices.values().stream()
+				.filter(Objects::nonNull) //O(n) donde n es la cantidad de values que tenga el hasmap
+				.flatMap(HashSet::stream) //O(n - nulls) donde n es la cantidad de values que una
+				.iterator();
 		//.values() trae todos los hashset
 		//.stream() encapsula cada value en un stream
 		//.filter(Objects::nonNull) se fija que cada uno no sea null, si algun stream es null lo saca
 		//.flatMap(HashSet::stream) toma cada stream y los concatena en un solo stream
 		//.iterator() devuelve un iterator de todos los arcos
 		
-		/*		List<Arco<T>> listaDeAdyacentes = new LinkedList<Arco<T>>();
+		/*	Complejidad O(n^2)
+		 * 
+		 * List<Arco<T>> listaDeAdyacentes = new LinkedList<Arco<T>>(); 
 		for(HashSet<Arco<T>> setDeArcos : this.vertices.values()) { //O(n)
 			if(setDeArcos != null) {
 				for(Arco<T> arco : setDeArcos) {//O(n)
@@ -237,7 +237,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
 //deberia usar getOrDefault por si el vértice no tiene arcos
-		return this.vertices.get(verticeId).stream()
+		return this.vertices.getOrDefault(verticeId, new HashSet<>())
+							.stream()
 							.filter(Objects::nonNull)
 							.iterator();
 		
@@ -247,5 +248,45 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		}
 		return Collections.emptyIterator();
 */	}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+/*				if(this.vertices.containsKey(verticeId1) &&  
+				this.vertices.containsKey(verticeId2)){
+					
+					for(Arco<T> arco : this.vertices.get(verticeId1)) {
+						System.out.println("OrigenArco: " + arco.getVerticeOrigen() + " Origen: " + verticeId1);
+						if(arco.getVerticeDestino() == verticeId2) {
+							System.out.println("DestinoArco: " + arco.getVerticeDestino() + " Destino: " + verticeId2);
+							if (arco.getEtiqueta() == etiqueta) {
+								System.out.println("Etiqueta: " + arco.getEtiqueta());
+								return;
+							}else {
+								Arco<T> newArco = new Arco<T>(verticeId1, verticeId2, etiqueta);
+								this.vertices.get(verticeId1).remove(arco);
+								System.out.println("borre " + !this.vertices.get(verticeId1).contains(arco));
+							}	
+						}
+					}
+					Arco<T> newArco = new Arco<T>(verticeId1, verticeId2, etiqueta);
+					if(!this.vertices.get(verticeId1).contains(newArco)) {
+						System.out.println("agrego de nuevo porque si");
+						this.vertices.get(verticeId1).add(newArco); 			
+					}
+				}
+
+			}
+*/
 
 }

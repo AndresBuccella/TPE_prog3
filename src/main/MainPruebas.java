@@ -7,17 +7,20 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 
+import grafo.Arco;
+
 
 public class MainPruebas {
 
 	public static void main(String[] args) {
-		
-		HashMap<Integer, HashSet<Integer>> hm = new HashMap<>();
+	
+/*		HashMap<Integer, HashSet<Integer>> hm = new HashMap<>();
 		Iterator<Integer> hs = hm.values().stream().filter(Objects::nonNull).flatMap(HashSet::stream).iterator();
 		while(hs.hasNext()) {
 			Integer i = hs.next();
 			System.out.println(i);
 		}
+*/
 /*		Queue<Integer> l = new LinkedList<>();
 
 		LinkedList<Integer> l2 = new LinkedList<>();
@@ -48,7 +51,10 @@ public class MainPruebas {
 				System.out.println("falso");
 		}
 		System.out.println(hs.iterator());
-*/	}
+		
+*/	
+		}
+	
 /*	public static void aer(HashMap<Integer, Integer> hm, int limite){
 		
 		if(limite != 0) {
