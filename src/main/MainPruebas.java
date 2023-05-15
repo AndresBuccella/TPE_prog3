@@ -13,6 +13,16 @@ import grafo.Arco;
 public class MainPruebas {
 
 	public static void main(String[] args) {
+		
+		HashSet<int[]> a = new HashSet<>();
+		int[] i = {10, 15};
+		int[] j = {10, 15};
+		System.out.println(a.add(i));
+		System.out.println(a.contains(j));
+		
+		
+
+		a.forEach(l -> System.out.println("Origen: "+ l[0] + " Destino: " + l[1]));
 	
 /*		HashMap<Integer, HashSet<Integer>> hm = new HashMap<>();
 		Iterator<Integer> hs = hm.values().stream().filter(Objects::nonNull).flatMap(HashSet::stream).iterator();

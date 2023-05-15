@@ -28,6 +28,10 @@ public class ServicioBFS { //min 43:00
 		this.tiempoTotal = 0;
 	}
 
+	/**
+	* Complejidad: O(n) donde n es la cantidad de vertices que tiene el grafo debido a que debe
+	* recorrer todos para agregarlos a una estructura donde se agregan más detalles
+	*/
 	private void inicializarInfo() {
 		Iterator<Integer> it = this.grafo.obtenerVertices();
 		while(it.hasNext()) {
@@ -40,6 +44,10 @@ public class ServicioBFS { //min 43:00
 		}
 		
 	}
+	/**
+	* Complejidad: O(n) donde n es la cantidad de vertices que tiene el grafo debido a que debe
+	* recorrer cada uno de ellos
+	*/
 	public List<Integer> bfsForest() {
 		
 		this.inicializarInfo();

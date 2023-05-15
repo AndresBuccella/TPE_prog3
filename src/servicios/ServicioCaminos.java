@@ -1,7 +1,6 @@
 package servicios;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -45,7 +44,6 @@ public class ServicioCaminos {
 	
 	private void buscador(int vertice, int pasos, HashSet<int[]> arcosVisitados,
 							List<Integer> caminoPosible, List<List<Integer>> caminosTotales){
-		
 		caminoPosible.add(vertice);
 		if(vertice == this.destino) {
 			caminosTotales.add(caminoPosible);
@@ -56,17 +54,21 @@ public class ServicioCaminos {
 					Integer proximo = adyacentes.next();
 					int[] arco = {vertice, proximo};
 					int[] arcoVuelta = {proximo, vertice};
-					if(arcosVisitados.add(arco) &&
-							arcosVisitados.add(arcoVuelta)) { // si no se agrega es porque ya paso
-						pasos++;
-						List<Integer> nuevoCamino = new ArrayList<>(caminoPosible);
-						this.buscador(proximo, pasos, arcosVisitados, nuevoCamino, caminosTotales);
+					for(int[] arrAdy : arcosVisitados) {
+						if((arrAdy[0] == vertice && arrAdy[1] == proximo) || 
+								(arrAdy[1] == vertice && arrAdy[0] == proximo)) {
+							return;
+						}
 					}
+					arcosVisitados.add(arco);
+					arcosVisitados.add(arcoVuelta);
+					pasos++;
+					List<Integer> nuevoCamino = new ArrayList<>(caminoPosible);
+					this.buscador(proximo, pasos, arcosVisitados, nuevoCamino, caminosTotales);
+					arcosVisitados.remove(arco);
+					arcosVisitados.remove(arcoVuelta);
 				}
-				
 			}
 		}
 	}
-	
-
 }
