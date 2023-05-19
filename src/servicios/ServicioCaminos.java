@@ -41,9 +41,10 @@ public class ServicioCaminos {
 		}
 			
 	}
-	
+	//O(n^2)
 	private void buscador(int vertice, int pasos, HashSet<int[]> arcosVisitados,
-							List<Integer> caminoPosible, List<List<Integer>> caminosTotales){
+							List<Integer> caminoPosible, List<List<Integer>> caminosTotales){		
+		boolean existeArco = false;
 		caminoPosible.add(vertice);
 		if(vertice == this.destino) {
 			caminosTotales.add(caminoPosible);
@@ -52,21 +53,25 @@ public class ServicioCaminos {
 				Iterator<Integer> adyacentes = this.grafo.obtenerAdyacentes(vertice);
 				while(adyacentes.hasNext()) {
 					Integer proximo = adyacentes.next();
-					int[] arco = {vertice, proximo};
-					int[] arcoVuelta = {proximo, vertice};
-					for(int[] arrAdy : arcosVisitados) {
-						if((arrAdy[0] == vertice && arrAdy[1] == proximo) || 
-								(arrAdy[1] == vertice && arrAdy[0] == proximo)) {
-							return;
+					for(int[] arrAarc : arcosVisitados) {
+						if((arrAarc[0] == vertice && arrAarc[1] == proximo) || 
+								(arrAarc[1] == vertice && arrAarc[0] == proximo)) {
+							existeArco = true;
 						}
 					}
-					arcosVisitados.add(arco);
-					arcosVisitados.add(arcoVuelta);
-					pasos++;
-					List<Integer> nuevoCamino = new ArrayList<>(caminoPosible);
-					this.buscador(proximo, pasos, arcosVisitados, nuevoCamino, caminosTotales);
-					arcosVisitados.remove(arco);
-					arcosVisitados.remove(arcoVuelta);
+					if(!existeArco) {
+						int[] arco = {vertice, proximo};
+						int[] arcoVuelta = {proximo, vertice};
+						arcosVisitados.add(arco);
+						arcosVisitados.add(arcoVuelta);
+						pasos++;
+						List<Integer> nuevoCamino = new ArrayList<>(caminoPosible);
+						this.buscador(proximo, pasos, arcosVisitados, nuevoCamino, caminosTotales);
+						pasos--;
+						arcosVisitados.remove(arco);
+						arcosVisitados.remove(arcoVuelta);
+					}else
+						existeArco = false;
 				}
 			}
 		}

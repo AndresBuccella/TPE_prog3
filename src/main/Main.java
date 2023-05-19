@@ -5,6 +5,7 @@ import java.util.List;
 
 import grafo.Arco;
 import grafo.GrafoDirigido;
+import grafo.GrafoNoDirigido;
 import servicios.ServicioBFS;
 import servicios.ServicioCaminos;
 import servicios.ServicioDFS;
@@ -47,9 +48,13 @@ public class Main {
 		gd.agregarArco(110, 27, null);
 		gd.agregarArco(18, 27, null);
 		gd.agregarArco(18, 110, null);
-		gd.agregarArco(90, 20, null);
 
-
+		Iterator<Integer> itAdy = gd.obtenerAdyacentes(50);
+		while(itAdy.hasNext()) {
+			Integer in = itAdy.next();
+			System.out.println("Adyacentes: " + in);
+		}
+/*
 		System.out.println("Cantidad de arcos: " + gd.cantidadArcos());
 		
 		
@@ -61,7 +66,7 @@ public class Main {
 		}
 		
 		System.out.println("cantVert antedeliminar: " + gd.cantidadVertices());
-		gd.borrarVertice(110);
+		//gd.borrarVertice(110);
 		System.out.println("cantVert despdeliminar: " + gd.cantidadVertices());
 
 		gd.agregarArco(110, 27, 10);
@@ -69,7 +74,7 @@ public class Main {
 
 		System.out.println("---------.borrarArco(int,int)----------");
 		
-		gd.borrarArco(90, 20);
+		//gd.borrarArco(90, 20);
 		
 		System.out.println("Cantidad de arcos despues de eliminar 90-20: " + gd.cantidadArcos());
 		System.out.println("--------.obtenerArcos()-----------");
@@ -142,9 +147,9 @@ public class Main {
 		for(Integer vertice : lista2) {
 				System.out.println(" - " + vertice + " - ");
 		}
-		
+*/		
 		System.out.println(" -----------CAMINOS POSIBLES------------- ");
-		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 20, 10).caminos();
+		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 110, 6).caminos();
 		for(List<Integer> listaSimple : listaCompuesta) {
 			for(Integer vertice : listaSimple) {
 				System.out.println(" - " + vertice + " - ");						
@@ -152,7 +157,7 @@ public class Main {
 				System.out.println(" ------------------------ ");
 		}
 	
-		
+
 	}
 	
 }
