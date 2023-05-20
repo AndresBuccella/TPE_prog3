@@ -57,7 +57,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 				setAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId2);
 				this.vertices.get(verticeId1).add(arcoNuevo);				
 				//dejo este que recorre todo hasta el final pero es mas legible? 
-				//O corto la ejecucion con el if etiqueta?
+				//O corto la ejecucion con el if etiqueta? es preferible que corte y no recorra todo
 			}
 			/*for(Arco<T> arco : setAdyacentes) {
 				if(arco.getVerticeDestino() == verticeId2) {
