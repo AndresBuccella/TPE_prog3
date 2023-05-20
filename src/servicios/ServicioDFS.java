@@ -11,9 +11,7 @@ import grafo.Grafo;
 public class ServicioDFS {
 
 	private Grafo<?> grafo;
-	private HashMap<Integer, int[]> info; //estaria bien?
-	
-	//no me parece eficiente, pero podría hacer un objeto estado?
+	private HashMap<Integer, int[]> info;
 	
 	private final int BLANCO = 0; //no visitado
 	private final int AMARILLO = 1; //visitado
@@ -56,8 +54,6 @@ public class ServicioDFS {
 		Iterator<Integer> it = this.grafo.obtenerVertices();
 		List<Integer> pilaR = new Stack<Integer>();
 		while(it.hasNext()) { //O(n)
-			//por cada vertice se pregunta si no fue visitado
-			//si es BLANCO va a DFS_Visit
 			Integer vertice = it.next();
 			if(this.info.get(vertice)[2] == this.BLANCO) {
 				pilaR.addAll(DFS_Visit(vertice)); // O(n)

@@ -23,6 +23,7 @@ public class Main {
 		System.out.println(m.values().iterator());
 */
 		GrafoDirigido<Integer> gd = new GrafoDirigido<Integer>();
+		
 
 		gd.agregarVertice(10);
 		gd.agregarVertice(50);
@@ -48,13 +49,14 @@ public class Main {
 		gd.agregarArco(110, 27, null);
 		gd.agregarArco(18, 27, null);
 		gd.agregarArco(18, 110, null);
-
+		gd.agregarArco(50, 50, null);
+/*
 		Iterator<Integer> itAdy = gd.obtenerAdyacentes(50);
 		while(itAdy.hasNext()) {
 			Integer in = itAdy.next();
 			System.out.println("Adyacentes: " + in);
 		}
-/*
+
 		System.out.println("Cantidad de arcos: " + gd.cantidadArcos());
 		
 		
@@ -149,7 +151,7 @@ public class Main {
 		}
 */		
 		System.out.println(" -----------CAMINOS POSIBLES------------- ");
-		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 110, 6).caminos();
+		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 50, 4).caminos();
 		for(List<Integer> listaSimple : listaCompuesta) {
 			for(Integer vertice : listaSimple) {
 				System.out.println(" - " + vertice + " - ");						
