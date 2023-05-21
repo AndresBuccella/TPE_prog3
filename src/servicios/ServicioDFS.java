@@ -24,10 +24,7 @@ public class ServicioDFS {
 		this.info = new HashMap<Integer, int[]>();
 		this.tiempoTotal = 0;
 	}
-	/**
-	* Complejidad: O(n) donde n es la cantidad de vertices que tiene el grafo debido a que debe
-	* recorrer todos para agregarlos a una estructura donde se agregan más detalles
-	*/
+
 	private void inicializarInfo() {
 		Iterator<Integer> it = this.grafo.obtenerVertices();
 		while(it.hasNext()) {
@@ -40,32 +37,22 @@ public class ServicioDFS {
 		}
 		
 	}
-	
-	/**
-	* Complejidad: O(n) donde n es la cantidad de vertices debido a que debe
-	* recorrer cada uno buscando un camino posible y un orden de descubrimiento. Si bien serían ciclos anidados,
-	* los dos tienen como limitacion no pasar por vertices visitados, por lo que en el peor de los casos, visita todos
-	* los vertices una sola vez.
-	*/
+
 	public List<Integer> dfsForest() {
 		
-		this.inicializarInfo(); //O(n)
+		this.inicializarInfo();
 		
 		Iterator<Integer> it = this.grafo.obtenerVertices();
 		List<Integer> pilaR = new Stack<Integer>();
-		while(it.hasNext()) { //O(n)
+		while(it.hasNext()) {
 			Integer vertice = it.next();
 			if(this.info.get(vertice)[2] == this.BLANCO) {
-				pilaR.addAll(DFS_Visit(vertice)); // O(n)
+				pilaR.addAll(DFS_Visit(vertice));
 			}
 		}
 		return new ArrayList<>(pilaR);
 	}
-	
-	/**
-	* Complejidad: O(n) donde  es la cantidad de vertices debido a que debe
-	* recorrer los vertices buscando un camino no transitado anteriormente.
-	*/
+
 	private List<Integer> DFS_Visit(int vertice){
 		List<Integer> pilaA = new Stack<Integer>();
 		pilaA.add(vertice);

@@ -22,7 +22,7 @@ public class Main {
 		m.get(1).add(l);
 		System.out.println(m.values().iterator());
 */
-		GrafoDirigido<Integer> gd = new GrafoDirigido<Integer>();
+		GrafoNoDirigido<Integer> gd = new GrafoNoDirigido<Integer>();
 		
 
 		gd.agregarVertice(10);
@@ -151,7 +151,7 @@ public class Main {
 		}
 */		
 		System.out.println(" -----------CAMINOS POSIBLES------------- ");
-		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 50, 4).caminos();
+		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 90, 10).caminos();
 		for(List<Integer> listaSimple : listaCompuesta) {
 			for(Integer vertice : listaSimple) {
 				System.out.println(" - " + vertice + " - ");						
