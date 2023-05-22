@@ -31,7 +31,7 @@ public class ServicioCaminos {
 				this.grafo.contieneVertice(destino)) {
 			
 			List<List<Integer>> caminosTotales = new LinkedList<>();
-			List<Integer> caminoPosible = new LinkedList<>();
+			List<Integer> caminoPosible = new ArrayList<>();
 			int pasos = 0;
 			HashSet<int[]> arcosVisitados = new HashSet<>();
 			this.buscador(this.origen, pasos, arcosVisitados, caminoPosible, caminosTotales);
@@ -46,35 +46,28 @@ public class ServicioCaminos {
 							List<Integer> caminoPosible, List<List<Integer>> caminosTotales){
 		caminoPosible.add(vertice);
 		if(vertice == this.destino) {
-			caminosTotales.add(caminoPosible);
+			caminosTotales.add(new LinkedList<>(caminoPosible));
 		}else {
 			if((caminoPosible.size() - 1) < this.lim) {
 				Iterator<Integer> adyacentes = this.grafo.obtenerAdyacentes(vertice);
 				existeArco:
-					while(adyacentes.hasNext()) {
-						Integer proximo = adyacentes.next();
-						for(int[] arrAarc : arcosVisitados) {
-							if((arrAarc[0] == vertice && arrAarc[1] == proximo) || 
-									(arrAarc[1] == vertice && arrAarc[0] == proximo)) {
-								continue existeArco;
-							}
+				while(adyacentes.hasNext()) {
+					Integer proximo = adyacentes.next();
+					for(int[] arrAarc : arcosVisitados) {
+						if((arrAarc[0] == vertice && arrAarc[1] == proximo) || 
+								(arrAarc[1] == vertice && arrAarc[0] == proximo)) {
+							continue existeArco;
 						}
-						int[] arco = {vertice, proximo}; //podria hacerlo con una matriz?
-						int[] arcoVuelta = {proximo, vertice};
-						arcosVisitados.add(arco);
-						arcosVisitados.add(arcoVuelta);
-						List<Integer> caminoNuevo = new ArrayList<>(caminoPosible);
-						this.buscador(proximo, pasos, arcosVisitados, caminoNuevo, caminosTotales);
-						
-						/* caminoPosible.remove(vertice); 
-						 * no lo puedo usar porque en el caso de que se repita el nodo, elimina el primero y no
-						 * el segundo como corresponderia o lo toma como id en vez de objeto, por lo que da el error
-						 * de rango
-						 */
-						arcosVisitados.remove(arco);
-						arcosVisitados.remove(arcoVuelta);
-			
 					}
+					int[] arco = {vertice, proximo};
+					int[] arcoVuelta = {proximo, vertice};
+					arcosVisitados.add(arco);
+					arcosVisitados.add(arcoVuelta);
+					this.buscador(proximo, pasos, arcosVisitados, caminoPosible, caminosTotales);
+					caminoPosible.remove(caminoPosible.size() - 1);
+					arcosVisitados.remove(arco);
+					arcosVisitados.remove(arcoVuelta);
+				}
 			}
 		}
 	}

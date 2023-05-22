@@ -38,7 +38,7 @@ public class ServicioBFS {
 	public List<Integer> bfsForest() {
 		
 		this.inicializarInfo();
-		ArrayList<Integer> arrR = new ArrayList<Integer>();
+		List<Integer> arrR = new ArrayList<Integer>();
 		Iterator<Integer> vertices = this.grafo.obtenerVertices();
 		
 		while(vertices.hasNext()) {

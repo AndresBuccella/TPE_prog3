@@ -15,14 +15,13 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	/**
-	* Complejidad: O(1) debido a que debe
-	* verificar si no existe el vertice en el hashmap, para agregarlo
-	* junto a una lista de arcos.
+	* Complejidad: O(1) debido a que debe verificar si no existe el vertice en el hashmap, 
+	* para agregarlo junto a una lista de arcos.
 	*/
 	@Override
 	public void agregarVertice(int verticeId) {
 		if(!this.vertices.containsKey(verticeId)) {
-			this.vertices.put(verticeId, new HashSet<Arco<T>>());//O(1)
+			this.vertices.put(verticeId, new HashSet<Arco<T>>());
 		}
 	}
 
@@ -34,11 +33,11 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public void borrarVertice(int verticeId) {
 
-		if(this.vertices.containsKey(verticeId)) { // O(1)
-			this.vertices.remove(verticeId); //borra la clave-valor del hm O(1)
+		if(this.vertices.containsKey(verticeId)) {
+			this.vertices.remove(verticeId);
 			
-			for(HashSet<Arco<T>> setDeArcos : this.vertices.values()) {// for * for O(n^2)
-				setDeArcos.removeIf(arco -> arco.getVerticeDestino() == verticeId); //O(n)
+			for(HashSet<Arco<T>> setDeArcos : this.vertices.values()) {
+				setDeArcos.removeIf(arco -> arco.getVerticeDestino() == verticeId);
 			}
 
 		}
@@ -50,25 +49,16 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	*/
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
-		if(this.vertices.containsKey(verticeId1) && this.vertices.containsKey(verticeId2)) { //O(1)
+		if(this.vertices.containsKey(verticeId1) && this.vertices.containsKey(verticeId2)) {
 			Arco<T> arcoNuevo = new Arco<T>(verticeId1, verticeId2, etiqueta);
-			HashSet<Arco<T>> setAdyacentes = this.vertices.get(verticeId1);
-			if(setAdyacentes != null) {
-				setAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId2);
-				this.vertices.get(verticeId1).add(arcoNuevo);				
-				//dejo este que recorre todo hasta el final pero es mas legible? 
-				//O corto la ejecucion con el if etiqueta? es preferible que corte y no recorra todo
+			HashSet<Arco<T>> setArcosAdyacentes = this.vertices.get(verticeId1);
+			if(setArcosAdyacentes != null) {
+				setArcosAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId2);				
 			}
-			/*for(Arco<T> arco : setAdyacentes) {
-				if(arco.getVerticeDestino() == verticeId2) {
-					if(arco.getEtiqueta() == etiqueta)
-						return;
-					else {
-						setAdyacentes.remove(arco);
-					}
-				}
-			}
-			this.vertices.get(verticeId1).add(arcoNuevo);*/
+			setArcosAdyacentes.add(arcoNuevo);
+			//no puedo usar remove con iterator porque el hashset que me devuelve el get es inmutable
+			//no puedo usar un for y adentro una condicion que lo elimine porque no puede iterar un objeto
+				//que esta siendo iterado
 		}
 
 	}
@@ -81,10 +71,10 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public void borrarArco(int verticeId1, int verticeId2) {
 		
 		if(this.vertices.containsKey(verticeId1) &&  
-		this.vertices.containsKey(verticeId2)){ //O(1)
+		this.vertices.containsKey(verticeId2)){
 			
 			HashSet<Arco<T>> setDeAdyacentes = this.vertices.get(verticeId1);
-			setDeAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId2); //O(n)
+			setDeAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId2);
 		}
 
 	}
@@ -103,11 +93,11 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	* recorrer el set de adyacentes de un vertice para verificar si existe el arco.
 	*/
 	@Override
-	public boolean existeArco(int verticeId1, int verticeId2) { //O(n)
+	public boolean existeArco(int verticeId1, int verticeId2) {
 
-		if(this.vertices.containsKey(verticeId1) &&  this.vertices.containsKey(verticeId2)){//O(1)
+		if(this.vertices.containsKey(verticeId1) &&  this.vertices.containsKey(verticeId2)){
 			HashSet<Arco<T>> setDeAdyacentes = this.vertices.get(verticeId1);
-			for(Arco<T> arco : setDeAdyacentes) { //O(n)
+			for(Arco<T> arco : setDeAdyacentes) {
 				if(arco.getVerticeDestino() == verticeId2)
 					return true;
 			}
@@ -124,7 +114,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 		if(this.vertices.containsKey(verticeId1) &&  this.vertices.containsKey(verticeId2)){
 			
-			for(Arco<T> arco : this.vertices.get(verticeId1)) { //O(n)
+			for(Arco<T> arco : this.vertices.get(verticeId1)) {
 				if(arco.getVerticeDestino() == verticeId2)
 					return arco;
 			}			
@@ -149,15 +139,15 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public int cantidadArcos() {
 		
 		int sumatoria = 0;
-		for (HashSet<Arco<T>> setDeAdyacentes : this.vertices.values()) { //O(n)
-			sumatoria = sumatoria + setDeAdyacentes.size(); //O(1)
+		for (HashSet<Arco<T>> setDeAdyacentes : this.vertices.values()) {
+			sumatoria = sumatoria + setDeAdyacentes.size();
 		}
 		return sumatoria;
 
 	}
 	
 	/**
-	* Complejidad: O(1) debido a que busca en un hashmap por key y devuelve un iterator
+	* Complejidad: O(1) debido a que busca en un hashmap por key(hash) y devuelve un iterator
 	*/
 	@Override
 	public Iterator<Integer> obtenerVertices() {
@@ -166,7 +156,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	
 	/**
 	* Complejidad: O(n) donde n es la cantidad de vertices adyacentes a verticeId que recorre
-	* map y convierte los elementos (Arco<T>) de esa secuencia en el vertice de destino (Integer)
+	* map y crea un flujo con los vertice de destino de cada Arco<T>
 	*/
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
@@ -178,27 +168,27 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 	
 	/**
-	* Complejidad: O(n) donde n es la cantidad de adyacenctes que recorre filter para sacar los valores null y
-	* la cantidad de flujos que concatena flatMap
+	* Complejidad: O(n) donde n es la cantidad de hashset(adyacentes) que recorre filter para sacar los valores null 
+	* y posteriormente concatenarlos en .flatMap
 	*/
 
 	@Override
-	public Iterator<Arco<T>> obtenerArcos() { // O(n)
+	public Iterator<Arco<T>> obtenerArcos() {
 		
-		return this.vertices.values().stream() //O(1) convierte todos los values en un flujo de datos
+		return this.vertices.values().stream() //O(1) convierte todos los hashset en un flujo de datos
 				.filter(Objects::nonNull) //O(n) donde n es la cantidad de flujos que tiene el stream
-				.flatMap(HashSet::stream) //O(n - nulls) donde n es la cantidad de flujos que concatene
+				.flatMap(HashSet::stream) //O(n - nulls) donde n es la cantidad de hashset que concatene
 				.iterator(); //O(1) devuelve un iterator
 		
 		//.values() trae todos los hashset
-		//.stream() crea un flujo entre todos los values
-		//.filter(Objects::nonNull) se fija que cada uno no sea null, si algun flujo es null lo saca
-		//.flatMap(HashSet::stream) toma cada flujo y los concatena en un solo flujo de datos
+		//.stream() crea un flujo entre todos los hashset
+		//.filter(Objects::nonNull) se fija que cada uno no sea null, si algun hashset es null lo saca
+		//.flatMap(HashSet::stream) toma cada hashset y los concatena en un solo flujo de datos
 		//.iterator() devuelve un iterator de todos los arcos
 		
-		//Reduce la complejidad algoritmica de O(n^2) -> O(n)
+/*		//Reduce la complejidad de O(n^2) -> O(n)
 		
-		/*	Complejidad O(n^2)
+			Complejidad O(n^2)
 		 * 
 		 * HashSet<Arco<T>> setDeAdyacentes = new HashSet<>(); 
 		for(HashSet<Arco<T>> setDeArcos : this.vertices.values()) { //O(n)
@@ -211,16 +201,15 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		
 		return listaDeAdyacentes.iterator();
 */	}
+	
 	/**
 	* Complejidad: O(n) donde n es la cantidad de values debido a que en .filter
 	* recorre todos fijandose y sacando si alguno es null 
 	*/
-
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
 
-		return this.vertices.getOrDefault(verticeId, new HashSet<>()) 
-				//busca el vertice, si no lo encuentra devuelve un hs vacio
+		return this.vertices.getOrDefault(verticeId, new HashSet<>())
 							.stream()
 							.filter(Objects::nonNull)
 							.iterator();

@@ -30,12 +30,15 @@ public class Arco<T> {
 		return etiqueta;
 	}
 
-	public boolean equals(Object o) {
-		Arco<T> arco = (Arco<T>) o;
-		if(this.getVerticeOrigen() == arco.getVerticeOrigen() && this.getVerticeDestino() == arco.getVerticeDestino()) {
-			return true;
+/*	public boolean equals(Object o) {
+		try {
+			Arco<T> arco = (Arco<T>) o;
+			return(this.getVerticeOrigen() == arco.getVerticeOrigen() && 
+					this.getVerticeDestino() == arco.getVerticeDestino());			
+		}catch(Exception e) {
+			System.out.println(e);
+			return false;
 		}
-		return false;
-
 	}
+*/
 }
