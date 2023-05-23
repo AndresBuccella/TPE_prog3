@@ -56,10 +56,8 @@ public class Main {
 		System.out.println("cantVert despdeliminar vertice 110: " + gd.cantidadVertices());
 
 		System.out.println("---------.agregarArco(int,int,T) para modificar----------");
-		gd.agregarArco(27, 90, 10);
 		gd.agregarArco(90, 27, 5);
 		gd.agregarArco(10, 20, 13);
-		gd.agregarArco(20, 10, 31);
 		gd.agregarArco(10, 0, 31); //no existe el segundo vertice
 		gd.agregarArco(0, 10, 31); //no existe el primer vertice
 
@@ -132,22 +130,22 @@ public class Main {
 		System.out.println(" -----------DFS------------- ");
 		List<Integer> lista1 = new ServicioDFS(gd).dfsForest();
 		for(Integer vertice : lista1) {
-				System.out.println(" - " + vertice + " - ");
+			System.out.println(" - " + vertice + " - ");
 		}
-		
+
 		System.out.println(" -----------BFS------------- ");
 		List<Integer> lista2 = new ServicioBFS(gd).bfsForest();
 		for(Integer vertice : lista2) {
-				System.out.println(" - " + vertice + " - ");
+			System.out.println(" - " + vertice + " - ");
 		}
-	
+
 		System.out.println(" -----------SERVICIO CAMINOS------------ ");
-		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 10, 90, 4).caminos();
+		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 10, 50, 6).caminos();
 		for(List<Integer> listaSimple : listaCompuesta) {
 			for(Integer vertice : listaSimple) {
 				System.out.println(" - " + vertice + " - ");						
 			}
-				System.out.println(" ------------------------ ");
+			System.out.println(" ------------------------ ");
 		}
 	}
 }

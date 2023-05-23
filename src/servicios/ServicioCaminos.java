@@ -32,9 +32,8 @@ public class ServicioCaminos {
 			
 			List<List<Integer>> caminosTotales = new LinkedList<>();
 			List<Integer> caminoPosible = new ArrayList<>();
-			int pasos = 0;
 			HashSet<int[]> arcosVisitados = new HashSet<>();
-			this.buscador(this.origen, pasos, arcosVisitados, caminoPosible, caminosTotales);
+			this.buscador(this.origen, arcosVisitados, caminoPosible, caminosTotales);
 			return new ArrayList<>(caminosTotales);
 		}else {
 			return new ArrayList<>();
@@ -42,29 +41,27 @@ public class ServicioCaminos {
 			
 	}
 	
-	private void buscador(int vertice, int pasos, HashSet<int[]> arcosVisitados,
+	private void buscador(int vertice, HashSet<int[]> arcosVisitados,
 							List<Integer> caminoPosible, List<List<Integer>> caminosTotales){
 		caminoPosible.add(vertice);
-		if(vertice == this.destino) {
-			caminosTotales.add(new LinkedList<>(caminoPosible));
-		}else {
-			if((caminoPosible.size() - 1) < this.lim) {
-				Iterator<Integer> adyacentes = this.grafo.obtenerAdyacentes(vertice);
-				existeArco:
-				while(adyacentes.hasNext()) {
-					Integer proximo = adyacentes.next();
-					for(int[] arrAarc : arcosVisitados) {
-						if(arrAarc[0] == vertice && arrAarc[1] == proximo) {
-							continue existeArco;
-						}
-					}
-					int[] arco = {vertice, proximo};
-					arcosVisitados.add(arco);
-					this.buscador(proximo, pasos, arcosVisitados, caminoPosible, caminosTotales);
-					caminoPosible.remove(caminoPosible.size() - 1);
-					arcosVisitados.remove(arco);
+		if((caminoPosible.size() - 1) < this.lim) {
+			if(vertice == this.destino)
+				caminosTotales.add(new LinkedList<>(caminoPosible));
+			Iterator<Integer> adyacentes = this.grafo.obtenerAdyacentes(vertice);
+			existeArco:
+			while(adyacentes.hasNext()) {
+				Integer proximo = adyacentes.next();
+				for(int[] arrAarc : arcosVisitados) {
+					if(arrAarc[0] == vertice && arrAarc[1] == proximo)
+						continue existeArco;
 				}
+				int[] arco = {vertice, proximo};
+				arcosVisitados.add(arco);
+				this.buscador(proximo, arcosVisitados, caminoPosible, caminosTotales);
+				caminoPosible.remove(caminoPosible.size() - 1);
+				arcosVisitados.remove(arco);
 			}
 		}
+		
 	}
 }

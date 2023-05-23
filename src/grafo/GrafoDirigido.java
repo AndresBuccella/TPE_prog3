@@ -56,9 +56,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
 				setArcosAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId2);				
 			}
 			setArcosAdyacentes.add(arcoNuevo);
-			//no puedo usar remove con iterator porque el hashset que me devuelve el get es inmutable
-			//no puedo usar un for y adentro una condicion que lo elimine porque no puede iterar un objeto
-				//que esta siendo iterado
 		}
 
 	}
