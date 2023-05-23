@@ -44,6 +44,8 @@ public class ServicioCaminos {
 	
 	private void buscador(int vertice, int pasos, HashSet<int[]> arcosVisitados,
 							List<Integer> caminoPosible, List<List<Integer>> caminosTotales){
+		//si tengo que tener en cuenta los dos grafos, no se que hacer
+		//esta soluc sirve para no dirigido. Para dirigido tengo que sacar el arco de vuelta
 		caminoPosible.add(vertice);
 		if(vertice == this.destino) {
 			caminosTotales.add(new LinkedList<>(caminoPosible));
