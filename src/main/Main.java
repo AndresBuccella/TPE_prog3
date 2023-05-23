@@ -141,8 +141,8 @@ public class Main {
 				System.out.println(" - " + vertice + " - ");
 		}
 	
-		System.out.println(" -----------CAMINOS POSIBLES------------- ");
-		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 50, 90, 4).caminos();
+		System.out.println(" -----------SERVICIO CAMINOS------------ ");
+		List<List<Integer>> listaCompuesta = new ServicioCaminos(gd, 10, 90, 4).caminos();
 		for(List<Integer> listaSimple : listaCompuesta) {
 			for(Integer vertice : listaSimple) {
 				System.out.println(" - " + vertice + " - ");						

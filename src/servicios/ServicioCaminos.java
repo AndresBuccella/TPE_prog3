@@ -44,8 +44,6 @@ public class ServicioCaminos {
 	
 	private void buscador(int vertice, int pasos, HashSet<int[]> arcosVisitados,
 							List<Integer> caminoPosible, List<List<Integer>> caminosTotales){
-		//si tengo que tener en cuenta los dos grafos, no se que hacer
-		//esta soluc sirve para no dirigido. Para dirigido tengo que sacar el arco de vuelta
 		caminoPosible.add(vertice);
 		if(vertice == this.destino) {
 			caminosTotales.add(new LinkedList<>(caminoPosible));
@@ -56,19 +54,15 @@ public class ServicioCaminos {
 				while(adyacentes.hasNext()) {
 					Integer proximo = adyacentes.next();
 					for(int[] arrAarc : arcosVisitados) {
-						if((arrAarc[0] == vertice && arrAarc[1] == proximo) || 
-								(arrAarc[1] == vertice && arrAarc[0] == proximo)) {
+						if(arrAarc[0] == vertice && arrAarc[1] == proximo) {
 							continue existeArco;
 						}
 					}
 					int[] arco = {vertice, proximo};
-					int[] arcoVuelta = {proximo, vertice};
 					arcosVisitados.add(arco);
-					arcosVisitados.add(arcoVuelta);
 					this.buscador(proximo, pasos, arcosVisitados, caminoPosible, caminosTotales);
 					caminoPosible.remove(caminoPosible.size() - 1);
 					arcosVisitados.remove(arco);
-					arcosVisitados.remove(arcoVuelta);
 				}
 			}
 		}
