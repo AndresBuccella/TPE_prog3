@@ -29,6 +29,10 @@ public class Arco<T> {
 	public T getEtiqueta() {
 		return etiqueta;
 	}
+	
+	public String toString() {
+		return "| " + this.getVerticeOrigen() + " <-> " + this.getVerticeDestino() + " |";
+	}
 
 /*	public boolean equals(Object o) {
 		try {
