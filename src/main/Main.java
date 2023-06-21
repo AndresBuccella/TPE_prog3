@@ -57,6 +57,8 @@ public class Main {
 
 		System.out.println("---------.agregarArco(int,int,T) para modificar----------");
 		gd.agregarArco(90, 27, 5);
+		gd.agregarArco(90, 27, 5);
+		gd.agregarArco(90, 27, 5);
 		gd.agregarArco(10, 20, 13);
 		gd.agregarArco(10, 0, 31); //no existe el segundo vertice
 		gd.agregarArco(0, 10, 31); //no existe el primer vertice
@@ -67,7 +69,7 @@ public class Main {
 		gd.borrarArco(90, 20);
 		
 		System.out.println("Cantidad de arcos despues de eliminar 90-20: " + gd.cantidadArcos());
-		System.out.println("--------.obtenerArcos()-----------");
+/*		System.out.println("--------.obtenerArcos()-----------");
 		
 		Iterator<Arco<Integer>> itA = gd.obtenerArcos();
 		while(itA.hasNext()) {
@@ -146,6 +148,6 @@ public class Main {
 				System.out.println(" - " + vertice + " - ");						
 			}
 			System.out.println(" ------------------------ ");
-		}
+		}*/
 	}
 }

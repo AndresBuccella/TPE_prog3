@@ -13,7 +13,6 @@ public class Backtracking {
 	private List<Arco<Integer>> tuneles;
 	private HashSet<Integer> estaciones;
 	private Estado solucion;
-	
 	private int metrica;
 	
 	public Backtracking(String path) {

@@ -8,8 +8,8 @@ package grafo;
  */
 public class Arco<T> {
 
-	private int verticeOrigen;
-	private int verticeDestino;
+	private Integer verticeOrigen;
+	private Integer verticeDestino;
 	private T etiqueta;
 
 	public Arco(int verticeOrigen, int verticeDestino, T etiqueta) {
@@ -34,7 +34,7 @@ public class Arco<T> {
 		return "| " + this.getVerticeOrigen() + " <-> " + this.getVerticeDestino() + " |";
 	}
 
-/*	public boolean equals(Object o) {
+	public boolean equals(Object o) {
 		try {
 			Arco<T> arco = (Arco<T>) o;
 			return(this.getVerticeOrigen() == arco.getVerticeOrigen() && 
@@ -44,5 +44,9 @@ public class Arco<T> {
 			return false;
 		}
 	}
-*/
+	
+	public int hashCode() {
+		return ((this.verticeOrigen == null) ? 0 : this.verticeOrigen.hashCode()) + 
+				((this.verticeDestino == null) ? 0 : this.verticeDestino.hashCode());
+	}
 }

@@ -14,7 +14,6 @@ public class Greedy {
 	private List<Arco<Integer>> tuneles;
 	private HashSet<Integer> estaciones;
 	private Estado solucion;
-	
 	private int metrica;
 	
 	public Greedy(String path) {
@@ -36,31 +35,39 @@ public class Greedy {
 		Iterator<Arco<Integer>> itTuneles = this.dataset.getTuneles();
 		while(itTuneles.hasNext()) {
 			Arco<Integer> tunel = itTuneles.next();
-			this.tuneles.add(tunel);
-			if(tunelMenor == null)
-				tunelMenor = tunel;
-			else
-				if(tunelMenor.getEtiqueta() > tunel.getEtiqueta())
-					tunelMenor = tunel;
+			this.tuneles.add(0,tunel);
 			this.estaciones.add(tunel.getVerticeOrigen());
 			this.estaciones.add(tunel.getVerticeDestino());
 		}
 		this.tuneles.sort(Comparator.comparingInt(a -> a.getEtiqueta()));
+		
+		while(this.estaciones.size() > 0) {
+			if (tunelMenor != null) {
+				this.metrica++;
+				tunelMenor = buscarSiguienteTunel();
+				this.actualizarSolucionRemoviendoTunelMenor(tunelMenor);
+			}else {
+				tunelMenor = this.tuneles.get(0);
+				this.actualizarSolucionRemoviendoTunelMenor(tunelMenor);
+			}
+		}
+		//si tiene que devolver un estado sin solucion hago
+		/* if (this.solucion.posibleSolucion()){
+		 * 	return this.solucion;
+		 * else
+		 * 	return null; //o algo...
+		 * 
+		 * */
+		return this.solucion;
+	}
+	
+	private void actualizarSolucionRemoviendoTunelMenor(Arco<Integer> tunelMenor) {
 		this.solucion.addTunel(tunelMenor);
 		this.tuneles.remove(tunelMenor);
 		this.estaciones.remove(tunelMenor.getVerticeOrigen());
 		this.estaciones.remove(tunelMenor.getVerticeDestino());
-		while(this.estaciones.size() > 0) {
-			this.metrica++;
-			tunelMenor = buscarSiguienteTunel();
-			this.solucion.addTunel(tunelMenor);
-			this.tuneles.remove(tunelMenor);
-			this.estaciones.remove(tunelMenor.getVerticeOrigen());
-			this.estaciones.remove(tunelMenor.getVerticeDestino());
-		}
-		
-		return this.solucion;
 	}
+	
 	private Arco<Integer> buscarSiguienteTunel() {
 		for (Arco<Integer> tunel : tuneles) {
 			if(((this.estaciones.contains(tunel.getVerticeOrigen())) && 

@@ -9,9 +9,11 @@ import java.util.Objects;
 public class GrafoDirigido<T> implements Grafo<T> {
 
 	private HashMap<Integer, HashSet<Arco<T>>> vertices;
+	private int cantidadArcos;
 	
 	public GrafoDirigido() {
-		vertices = new HashMap<Integer, HashSet<Arco<T>>>();
+		this.vertices = new HashMap<Integer, HashSet<Arco<T>>>();
+		this.cantidadArcos = 0;
 	}
 
 	/**
@@ -35,9 +37,11 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 		if(this.vertices.containsKey(verticeId)) {
 			this.vertices.remove(verticeId);
-			
+			//Arco<Integer> arquito = new Arco<>(?,verticeId,?);
 			for(HashSet<Arco<T>> setDeArcos : this.vertices.values()) {
-				setDeArcos.removeIf(arco -> arco.getVerticeDestino() == verticeId);
+				Arco<T> arcoABorrar = new Arco<>(setDeArcos.iterator().next().getVerticeOrigen(), verticeId, null);
+				setDeArcos.remove(arcoABorrar);
+				arcoABorrar = null;
 			}
 
 		}
@@ -46,6 +50,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	/**
 	* Complejidad: O(n) donde n es la cantidad de arcos adyacentes al vertice debido a que tiene
 	* que recorrer todos los adyacentes al vertice.
+	* Ahora sería O(1) porque remueve por hashcode
 	*/
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
@@ -53,7 +58,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 			Arco<T> arcoNuevo = new Arco<T>(verticeId1, verticeId2, etiqueta);
 			HashSet<Arco<T>> setArcosAdyacentes = this.vertices.get(verticeId1);
 			if(setArcosAdyacentes != null) {
-				setArcosAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId2);				
+				setArcosAdyacentes.remove(arcoNuevo);				
 			}
 			setArcosAdyacentes.add(arcoNuevo);
 		}
