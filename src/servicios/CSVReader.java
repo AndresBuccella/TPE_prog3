@@ -40,7 +40,7 @@ public class CSVReader {
 			Integer etiqueta = Integer.parseInt(line[2].trim());
 			
 			// Aca instanciar lo que necesiten en base a los datos leidos
-			
+				
 			Arco<Integer> tunel = new Arco<>(origen, destino, etiqueta);
 			this.tuneles.add(tunel);
 		}

@@ -8,8 +8,8 @@ public class MainParte2 {
 	public static void main(String[] args) {
 
 
-		Greedy b = new Greedy("././datasets/dataset2.txt");
-		System.out.println(b.greedy());
+		Backtracking<Integer> b = new Backtracking("././datasets/dataset3.txt");
+		System.out.println(b.backT());
 		System.out.println("Metrica: " + b.getMetrica());
 	}
 

@@ -37,8 +37,8 @@ public class Estado {
 	}
 	
 	public void addTunel(Arco<Integer> tunel) {
-		this.kms = this.kms + tunel.getEtiqueta();
-		this.tuneles.add(tunel);
+		this.kms = this.kms + tunel.getEtiqueta(); //O(1)
+		this.tuneles.add(tunel); //O(1)
 	}
 	
 	public void deleteTunel(Arco<Integer> tunel) {

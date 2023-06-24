@@ -7,7 +7,7 @@ import java.util.List;
 
 import grafo.Arco;
 
-public class Backtracking {
+public class Backtracking<T> {
 
 	private CSVReader dataset;
 	private List<Arco<Integer>> tuneles;
@@ -47,16 +47,16 @@ public class Backtracking {
 				this.solucion = e.copy();
 		}else
 			if(e.getCantTuneles() < this.estaciones.size() - 1) {
-				for(int idTunel = 0; idTunel < this.tuneles.size(); idTunel++) {
+				for(int idTunel = 0; idTunel < this.tuneles.size(); idTunel++) { //O(n^2)? sin contar la recursion
 					this.metrica++;
 					
-					Arco<Integer> tunel = this.tuneles.remove(idTunel);
-					e.addTunel(tunel);
+					Arco<Integer> tunel = this.tuneles.remove(idTunel); //O(n) donde n es la cant de tuneles
+					e.addTunel(tunel); //O(1)
 					
 					this.backie(e);
 					
-					this.tuneles.add(idTunel,tunel);
-					e.deleteTunel(tunel);
+					this.tuneles.add(idTunel,tunel); //O(n) donde n es la cant de tuneles - 1
+					e.deleteTunel(tunel); //O(1)
 				}
 			}
 	}

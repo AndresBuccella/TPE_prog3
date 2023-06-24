@@ -28,29 +28,28 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	/**
-	* Complejidad: O(n^2) donde n es la cantidad de vertices y arcos debido a que debe
-	* recorrer todos los vertices y arcos para borrar todos los arcos que tienen como destino
-	* el vertice que se quiere eliminar.
+	* Complejidad: O(n) donde n es la cantidad de vertices del HashMap
 	*/
 	@Override
 	public void borrarVertice(int verticeId) {
 
 		if(this.vertices.containsKey(verticeId)) {
+			this.cantidadArcos = this.cantidadArcos - this.vertices.get(verticeId).size();
 			this.vertices.remove(verticeId);
-			//Arco<Integer> arquito = new Arco<>(?,verticeId,?);
 			for(HashSet<Arco<T>> setDeArcos : this.vertices.values()) {
-				Arco<T> arcoABorrar = new Arco<>(setDeArcos.iterator().next().getVerticeOrigen(), verticeId, null);
-				setDeArcos.remove(arcoABorrar);
-				arcoABorrar = null;
+				if (!setDeArcos.isEmpty()) {
+					Arco<T> arcoABorrar = new Arco<>(setDeArcos.iterator().next().getVerticeOrigen(), verticeId, null);
+					if(setDeArcos.remove(arcoABorrar)) {
+						arcoABorrar = null;
+						this.cantidadArcos--;
+					}					
+				}
 			}
-
 		}
 	}
 	
 	/**
-	* Complejidad: O(n) donde n es la cantidad de arcos adyacentes al vertice debido a que tiene
-	* que recorrer todos los adyacentes al vertice.
-	* Ahora sería O(1) porque remueve por hashcode
+	* Complejidad: O(1) porque remueve por hashcode y agrega en un HashSet
 	*/
 	@Override
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
@@ -58,15 +57,17 @@ public class GrafoDirigido<T> implements Grafo<T> {
 			Arco<T> arcoNuevo = new Arco<T>(verticeId1, verticeId2, etiqueta);
 			HashSet<Arco<T>> setArcosAdyacentes = this.vertices.get(verticeId1);
 			if(setArcosAdyacentes != null) {
-				setArcosAdyacentes.remove(arcoNuevo);				
+				if(setArcosAdyacentes.remove(arcoNuevo))	
+					this.cantidadArcos--;
 			}
 			setArcosAdyacentes.add(arcoNuevo);
+			this.cantidadArcos++;
 		}
 
 	}
 
 	/**
-	* Complejidad: O(n) donde n es la cantidad de arcos del set de adyacencia 
+	* Complejidad: O(1) donde n es la cantidad de arcos del set de adyacencia 
 	* debido a que debe encontrar y borrar el arco hallado.
 	*/
 	@Override
@@ -74,11 +75,10 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		
 		if(this.vertices.containsKey(verticeId1) &&  
 		this.vertices.containsKey(verticeId2)){
-			
-			HashSet<Arco<T>> setDeAdyacentes = this.vertices.get(verticeId1);
-			setDeAdyacentes.removeIf(arco -> arco.getVerticeDestino() == verticeId2);
+			Arco<T> arcoABorrar = new Arco<>(verticeId1, verticeId2, null);
+			if(this.vertices.get(verticeId1).remove(arcoABorrar))
+				this.cantidadArcos--;
 		}
-
 	}
 	
 	/**
@@ -91,18 +91,14 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 	
 	/**
-	* Complejidad: O(n) donde n es la cantidad de arcos debido a que debe
-	* recorrer el set de adyacentes de un vertice para verificar si existe el arco.
+	* Complejidad: O(1) ya que tanto el metodo contains busca por hashcode
 	*/
 	@Override
 	public boolean existeArco(int verticeId1, int verticeId2) {
 
 		if(this.vertices.containsKey(verticeId1) &&  this.vertices.containsKey(verticeId2)){
-			HashSet<Arco<T>> setDeAdyacentes = this.vertices.get(verticeId1);
-			for(Arco<T> arco : setDeAdyacentes) {
-				if(arco.getVerticeDestino() == verticeId2)
-					return true;
-			}
+			Arco<T> arcoAux = new Arco<>(verticeId1, verticeId2, null);
+			return this.vertices.get(verticeId1).contains(arcoAux);
 		}
 		return false;
 	}
@@ -119,14 +115,13 @@ public class GrafoDirigido<T> implements Grafo<T> {
 			for(Arco<T> arco : this.vertices.get(verticeId1)) {
 				if(arco.getVerticeDestino() == verticeId2)
 					return arco;
-			}			
+			}
 		}
 		return null;
 	}
 	
 	/**
-	* Complejidad: O(1) debido a que debe
-	* devolver el size de un hashmap.
+	* Complejidad: O(1) debido a que devuelve el size de un hashmap.
 	*/
 	@Override
 	public int cantidadVertices() {
@@ -134,18 +129,11 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 	
 	/**
-	* Complejidad: O(n) donde n es la cantidad de vertices debido a que debe
-	* recorrer todos los vertices del hashmap para preguntar el size de cada lista
+	* Complejidad: O(1) ya que solo devuelve la variable cantidadArcos
 	* 	*/
 	@Override
 	public int cantidadArcos() {
-		
-		int sumatoria = 0;
-		for (HashSet<Arco<T>> setDeAdyacentes : this.vertices.values()) {
-			sumatoria = sumatoria + setDeAdyacentes.size();
-		}
-		return sumatoria;
-
+		return this.cantidadArcos;
 	}
 	
 	/**
