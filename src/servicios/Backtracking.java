@@ -7,7 +7,7 @@ import java.util.List;
 
 import grafo.Arco;
 
-public class Backtracking<T> {
+public class Backtracking {
 
 	private CSVReader dataset;
 	private List<Arco<Integer>> tuneles;
@@ -55,7 +55,7 @@ public class Backtracking<T> {
 					
 					this.backie(e);
 					
-					this.tuneles.add(idTunel,tunel); //O(n) donde n es la cant de tuneles - 1
+					this.tuneles.add(idTunel,tunel); //O(n) donde n es la cant de tuneles
 					e.deleteTunel(tunel); //O(1)
 				}
 			}

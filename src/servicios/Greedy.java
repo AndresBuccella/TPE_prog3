@@ -39,7 +39,9 @@ public class Greedy {
 			this.estaciones.add(tunel.getVerticeOrigen());
 			this.estaciones.add(tunel.getVerticeDestino());
 		}
-		this.tuneles.sort(Comparator.comparingInt(a -> a.getEtiqueta()));
+		int totalEstaciones = this.estaciones.size();
+		this.tuneles.sort(Comparator.comparingInt(a -> a.getEtiqueta())); //O(n log n) donde n es la cantidad de tuneles
+		//utiliza el algoritmo de ordenamiento TimSort que en el peor de los casos es O(n log n)
 		
 		while(this.estaciones.size() > 0) {
 			if (tunelMenor != null) {
@@ -51,14 +53,10 @@ public class Greedy {
 				this.actualizarSolucionRemoviendoTunelMenor(tunelMenor);
 			}
 		}
-		//si tiene que devolver un estado sin solucion hago
-		/* if (this.solucion.posibleSolucion()){
-		 * 	return this.solucion;
-		 * else
-		 * 	return null; //o algo...
-		 * 
-		 * */
-		return this.solucion;
+		if (this.solucion.solucionPosible(totalEstaciones))
+		 	return this.solucion;
+		else
+		 	return null; //o algo...
 	}
 	
 	private void actualizarSolucionRemoviendoTunelMenor(Arco<Integer> tunelMenor) {

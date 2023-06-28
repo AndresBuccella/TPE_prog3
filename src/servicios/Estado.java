@@ -63,8 +63,6 @@ public class Estado {
 				this.uf.reset();
 				return respuesta;
 			}
-			//this.uf.reset();
-			//this.estaciones.clear();
 		}
 		
 		return false;
