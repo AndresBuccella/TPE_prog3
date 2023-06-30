@@ -44,13 +44,13 @@ public class ServicioBFS {
 		while(vertices.hasNext()) {
 			Integer vertice = vertices.next();
 			if(this.info.get(vertice)[2] == BLANCO) {
-				arrR.addAll(BFS_Visit(this.grafo, vertice));
+				arrR.addAll(BFS_Visit(vertice));
 			}
 		}
 		return arrR;
 	}
 	
-	private List<Integer> BFS_Visit(Grafo<?> G, int vertice){
+	private List<Integer> BFS_Visit(int vertice){
 		
 		this.info.get(vertice)[2] = this.AMARILLO;
 		List<Integer> listaR = new LinkedList<>();

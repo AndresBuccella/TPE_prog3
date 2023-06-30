@@ -42,7 +42,7 @@ public class CSVReader {
 			// Aca instanciar lo que necesiten en base a los datos leidos
 				
 			Arco<Integer> tunel = new Arco<>(origen, destino, etiqueta);
-			this.tuneles.add(tunel);
+			this.tuneles.add(0, tunel);
 		}
 		
 	}
