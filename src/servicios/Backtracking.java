@@ -26,7 +26,7 @@ public class Backtracking {
 		return this.metrica;
 	}
 	
-	public Estado backT() {
+	public Estado resolverBacktracking() {
 		
 		this.dataset.read();
 		Iterator<Arco<Integer>> itTuneles = this.dataset.getTuneles();
@@ -37,23 +37,23 @@ public class Backtracking {
 			this.estaciones.add(tunel.getVerticeDestino());
 		}
 		Estado e = new Estado(0);
-		this.backie(e);
+		this.backtrackingRecursion(e);
 		return solucion;
 	}
 	
-	private void backie(Estado e) {
+	private void backtrackingRecursion(Estado e) {
 		if(e.solucionPosible(this.estaciones.size())) {
 			if(this.solucion.getKms() > e.getKms())
 				this.solucion = e.copy();
 		}else
 			if(e.getCantTuneles() < this.estaciones.size() - 1) {
-				for(int idTunel = 0; idTunel < this.tuneles.size(); idTunel++) { //O(n^2)? sin contar la recursion
+				for(int idTunel = 0; idTunel < this.tuneles.size(); idTunel++) {
 					this.metrica++;
 					
 					Arco<Integer> tunel = this.tuneles.remove(idTunel); //O(n) donde n es la cant de tuneles
 					e.addTunel(tunel); //O(1)
 					
-					this.backie(e);
+					this.backtrackingRecursion(e);
 					
 					this.tuneles.add(idTunel,tunel); //O(n) donde n es la cant de tuneles
 					e.deleteTunel(tunel); //O(1)
